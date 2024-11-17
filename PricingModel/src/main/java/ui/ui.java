@@ -4,22 +4,44 @@
  */
 package ui;
 
+import javax.swing.JOptionPane;
+import model.Business.Business;
 import model.Business.ConfigureABusiness;
+import model.CustomerManagement.CustomerDirectory;
+import model.CustomerManagement.CustomerProfile;
+import model.MarketingManagement.MarketingPersonDirectory;
+import model.MarketingManagement.MarketingPersonProfile;
+import model.OrderManagement.MasterOrderList;
+import model.OrderManagement.Order;
+import model.OrderManagement.OrderItem;
+import model.Personnel.EmployeeDirectory;
+import model.Personnel.EmployeeProfile;
+import model.Personnel.Person;
+import model.Personnel.PersonDirectory;
+import model.ProductManagement.Product;
+import model.ProductManagement.ProductCatalog;
+import model.SalesManagement.SalesPersonDirectory;
+import model.SalesManagement.SalesPersonProfile;
+import model.Supplier.Supplier;
+import model.Supplier.SupplierDirectory;
+import model.UserAccountManagement.UserAccount;
+import model.UserAccountManagement.UserAccountDirectory;
 
 /**
  *
  * @author akshtalati
  */
 public class ui extends javax.swing.JFrame {
+    
 
     /**
      * Creates new form ui
      */
-    public ui() {
+ public ui() {
         initComponents();
-        ConfigureABusiness confi = new ConfigureABusiness();
-        System.out.print(confi);
-    }
+         Business business = ConfigureABusiness.initialize();
+          printBusinessDetails(business);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,13 +60,17 @@ public class ui extends javax.swing.JFrame {
         lbTask23 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        btnView = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 255));
 
+        lbTitle.setFont(new java.awt.Font("Segoe UI Historic", 3, 18)); // NOI18N
+        lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitle.setText("Pricing Model");
 
+        lbTask1.setFont(new java.awt.Font("Segoe UI Historic", 3, 14)); // NOI18N
         lbTask1.setText("Browse Product Price Performance");
 
         tblTask1.setModel(new javax.swing.table.DefaultTableModel(
@@ -68,6 +94,7 @@ public class ui extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblTask1);
 
+        lbTask23.setFont(new java.awt.Font("Segoe UI Historic", 3, 14)); // NOI18N
         lbTask23.setText("Adjust Target price Higher / Lower");
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -91,37 +118,50 @@ public class ui extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable2);
 
+        btnView.setText("View Product");
+        btnView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(lbTitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbTask1)
-                            .addComponent(lbTask23))
+                            .addComponent(lbTask23, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnView)
+                .addGap(31, 31, 31))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(51, 51, 51)
                 .addComponent(lbTask1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnView)
+                .addGap(5, 5, 5)
                 .addComponent(lbTask23)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -136,11 +176,23 @@ public class ui extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
+        // TODO add your handling code here:
+                int selectedRowIndex = tblTask1.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select the product first", "Warning", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        Product product = (Product) tblTask1.getValueAt(selectedRowIndex, 0);
+        
+    }//GEN-LAST:event_btnViewActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,6 +230,7 @@ public class ui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnView;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -187,4 +240,40 @@ public class ui extends javax.swing.JFrame {
     private javax.swing.JLabel lbTitle;
     private javax.swing.JTable tblTask1;
     // End of variables declaration//GEN-END:variables
+
+    private void printBusinessDetails(Business business) {
+        System.out.println("==== Business Details ====");
+        System.out.println("Business Name: " + business.getBusinessName());
+
+        // Print Supplier and Product details
+        System.out.println("\n--- Suppliers and Products ---");
+        business.getSupplierDirectory().getSupplierList().forEach(supplier -> {
+            System.out.println("Supplier: " + supplier.getSupplierName());
+            supplier.getProductCatalog().getProductList().forEach(product -> {
+                System.out.println("\tProduct: " + product.getProductName() +
+                        " | Floor Price: " + product.getFloorPrice() +
+                        " | Ceiling Price: " + product.getCeilingPrice() +
+                        " | Target Price: " + product.getTargetPrice());
+            });
+        });
+
+        // Print Customer details
+        System.out.println("\n--- Customers ---");
+        business.getCustomerDirectory().getAllCustomers().forEach(customer -> {
+            System.out.println("Customer: " + customer.getCustomerName());
+        });
+
+        // Print Orders and Order Items
+        System.out.println("\n--- Orders ---");
+        business.getMasterOrderList().getOrders().forEach(order -> {
+            System.out.println("Order for Customer: " + order.getCustomer().getCustomerName());
+            order.getOrderItems().forEach(orderItem -> {
+                Product product = orderItem.getSelectedProduct();
+                System.out.println("\tOrder Item: " + product.getProductName() +
+                        " | Price: " + orderItem.getActualPrice() +
+                        " | Quantity: " + orderItem.getQuantity());
+            });
+        });
+
+    }
 }
