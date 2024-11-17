@@ -118,5 +118,8 @@ public class Business {
         public EmployeeDirectory getEmployeeDirectory() {
         return employeedirectory;
     }
+        public String getBusinessName() {
+       return name;
+}
 
 }

@@ -111,4 +111,7 @@ public class Supplier {
                 ", productCatalog=" + productCatalog +
                 '}';
     }
+    public String getSupplierName() {
+        return name;
+    }
 }
