@@ -86,4 +86,7 @@ public class CustomerProfile {
     public ArrayList<Market> getMarkets() {
         return new ArrayList<>(markets); // Return a copy for encapsulation
     }
+    public String getCustomerName() {
+        return person.getFirstName();
+}
 }
