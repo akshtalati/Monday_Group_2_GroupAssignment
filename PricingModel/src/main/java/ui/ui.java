@@ -5,6 +5,9 @@
 package ui;
 
 import javax.swing.JOptionPane;
+
+import javax.swing.table.DefaultTableModel;
+
 import model.Business.Business;
 import model.Business.ConfigureABusiness;
 import model.CustomerManagement.CustomerDirectory;
@@ -42,6 +45,9 @@ public class ui extends javax.swing.JFrame {
 
          Business business = ConfigureABusiness.initialize();
           printBusinessDetails(business);
+
+           populateTaskTable(business);
+
 }
 
 
@@ -134,6 +140,7 @@ public class ui extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 
+
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,7 +151,8 @@ public class ui extends javax.swing.JFrame {
 
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbTask1)
-                            .addComponent(lbTask23, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbTask23, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -284,4 +292,46 @@ public class ui extends javax.swing.JFrame {
         });
 
     }
+
+
+    private void populateTaskTable(Business business) {
+    DefaultTableModel model = (DefaultTableModel) tblTask1.getModel();
+    model.setRowCount(0);
+
+    // Loop through suppliers, products, and their orders
+    for (Supplier supplier : business.getSupplierDirectory().getSupplierList()) {
+        for (Product product : supplier.getProductCatalog().getProductList()) {
+            double totalActualPrice = 0;
+            int totalQuantity = 0;
+
+            // Calculate the total actual price and quantity for the product
+            for (Order order : business.getMasterOrderList().getOrders()) {
+                for (OrderItem orderItem : order.getOrderItems()) {
+                    if (orderItem.getSelectedProduct().equals(product)) {
+                        totalActualPrice += orderItem.getActualPrice() * orderItem.getQuantity();
+                        totalQuantity += orderItem.getQuantity();
+                    }
+                }
+            }
+
+            // Calculate average actual price (if applicable)
+            double averageActualPrice = totalQuantity > 0 ? totalActualPrice / totalQuantity : 0;
+
+            // Calculate price variance and performance index
+            double priceVariance = product.getTargetPrice() - averageActualPrice;
+            double performanceIndex = averageActualPrice > 0 ? averageActualPrice / product.getTargetPrice() : 0;
+
+            // Add data to the table
+            Object[] row = new Object[]{
+                product.getProductName(),
+                product.getTargetPrice(),
+                averageActualPrice,
+                priceVariance,
+                performanceIndex
+            };
+            model.addRow(row);
+        }
+    }  
+    }
+
 }
