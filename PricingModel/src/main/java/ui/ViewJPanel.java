@@ -52,6 +52,7 @@ public class ViewJPanel extends javax.swing.JPanel {
         jLabel4.setText("Price Variance:");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Historic", 3, 18)); // NOI18N
+
         jLabel5.setText("Performance Index:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -59,7 +60,9 @@ public class ViewJPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+
                 .addContainerGap(135, Short.MAX_VALUE)
+
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -99,7 +102,9 @@ public class ViewJPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPerformanceIndex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
+
                 .addContainerGap(183, Short.MAX_VALUE))
+
         );
     }// </editor-fold>//GEN-END:initComponents
 
