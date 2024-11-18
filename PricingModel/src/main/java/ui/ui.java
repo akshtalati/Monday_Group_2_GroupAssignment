@@ -5,7 +5,9 @@
 package ui;
 
 import javax.swing.JOptionPane;
+
 import javax.swing.table.DefaultTableModel;
+
 import model.Business.Business;
 import model.Business.ConfigureABusiness;
 import model.CustomerManagement.CustomerDirectory;
@@ -43,8 +45,11 @@ public class ui extends javax.swing.JFrame {
 
          Business business = ConfigureABusiness.initialize();
           printBusinessDetails(business);
+
            populateTaskTable(business);
+
            populateTask23Table(business);
+
 }
 
 
@@ -71,8 +76,10 @@ public class ui extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 255));
 
+
         lbTitle.setFont(new java.awt.Font("Segoe UI Historic", 3, 18)); // NOI18N
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         lbTitle.setText("Pricing Model");
 
         lbTask1.setFont(new java.awt.Font("Segoe UI Historic", 3, 14)); // NOI18N
@@ -134,6 +141,8 @@ public class ui extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
+
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,9 +150,11 @@ public class ui extends javax.swing.JFrame {
                     .addComponent(lbTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbTask1)
                             .addComponent(lbTask23, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -181,7 +192,9 @@ public class ui extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+
                 .addGap(0, 0, Short.MAX_VALUE))
+
         );
 
         pack();
@@ -282,6 +295,7 @@ public class ui extends javax.swing.JFrame {
 
     }
 
+
     private void populateTaskTable(Business business) {
     DefaultTableModel model = (DefaultTableModel) tblTask1.getModel();
     model.setRowCount(0);
@@ -321,6 +335,7 @@ public class ui extends javax.swing.JFrame {
         }
     }  
     }
+
 
     private void populateTask23Table(Business business) {
           DefaultTableModel model = (DefaultTableModel) tbTask23.getModel();
@@ -367,4 +382,5 @@ public class ui extends javax.swing.JFrame {
     }
 
     }
+
 }
