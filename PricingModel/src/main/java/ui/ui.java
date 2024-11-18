@@ -45,7 +45,6 @@ public class ui extends javax.swing.JFrame {
           printBusinessDetails(business);
            populateTaskTable(business);
            populateTask23Table(business);
-           
 }
 
 
@@ -324,7 +323,7 @@ public class ui extends javax.swing.JFrame {
     }
 
     private void populateTask23Table(Business business) {
-    DefaultTableModel model = (DefaultTableModel) tbTask23.getModel();
+          DefaultTableModel model = (DefaultTableModel) tbTask23.getModel();
     model.setRowCount(0);
 
     // Loop through suppliers and their products
@@ -366,5 +365,6 @@ public class ui extends javax.swing.JFrame {
             model.addRow(row);
         }
     }
+
     }
 }
