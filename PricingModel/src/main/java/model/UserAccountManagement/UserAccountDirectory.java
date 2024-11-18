@@ -6,108 +6,48 @@
 package model.UserAccountManagement;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import model.Personnel.Profile;
+import model.Personnel.*;
 
 /**
  *
  * @author kal bugrara
  */
 public class UserAccountDirectory {
+    
+      ArrayList<UserAccount> useraccountlist ;
+    
+      public UserAccountDirectory (){
+          
+       useraccountlist = new ArrayList();
 
-    private List<UserAccount> userAccounts;
-
-    /**
-     * Constructor to initialize the user account directory.
-     */
-    public UserAccountDirectory() {
-        userAccounts = new ArrayList<>();
     }
 
-    /**
-     * Creates a new user account and adds it to the directory.
-     *
-     * @param profile the profile associated with the user account
-     * @param username the username
-     * @param password the password
-     * @return the created UserAccount object
-     * @throws IllegalArgumentException if inputs are null or invalid
-     */
-    public UserAccount newUserAccount(Profile profile, String username, String password) {
-        if (profile == null || username == null || username.isEmpty() || password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("Profile, username, and password must not be null or empty");
-        }
-        UserAccount userAccount = new UserAccount(profile, username, password);
-        userAccounts.add(userAccount);
-        return userAccount;
+    public UserAccount newUserAccount(Profile p, String un, String pw) {
+
+        UserAccount ua = new UserAccount (p,  un,  pw);
+        useraccountlist.add(ua);
+        return ua;
     }
 
-    /**
-     * Finds a user account by the person's ID.
-     *
-     * @param personId the ID of the person
-     * @return the matching UserAccount, or null if not found
-     */
-    public UserAccount findUserAccount(String personId) {
-        if (personId == null || personId.isEmpty()) {
-            return null;
-        }
-        for (UserAccount userAccount : userAccounts) {
-            if (userAccount.isMatch(personId)) {
-                return userAccount;
+    public UserAccount findUserAccount(String id) {
+
+        for (UserAccount ua : useraccountlist) {
+
+            if (ua.isMatch(id)) {
+                return ua;
             }
         }
-        return null; // Not found
-    }
+            return null; //not found after going through the whole list
+         }
+     public UserAccount AuthenticateUser(String un, String pw) {
 
-    /**
-     * Authenticates a user account based on username and password.
-     *
-     * @param username the username
-     * @param password the password
-     * @return the authenticated UserAccount, or null if credentials are invalid
-     */
-    public UserAccount authenticateUser(String username, String password) {
-        if (username == null || password == null) {
-            return null;
-        }
-        for (UserAccount userAccount : userAccounts) {
-            if (userAccount.isValidUser(username, password)) {
-                return userAccount;
+        for (UserAccount ua : useraccountlist) {
+
+            if (ua.IsValidUser(un, pw)) {
+                return ua;
             }
         }
-        return null; // Not found
-    }
-
-    /**
-     * Retrieves the list of all user accounts.
-     *
-     * @return the list of UserAccount objects
-     */
-    public List<UserAccount> getUserAccounts() {
-        return userAccounts;
-    }
-
-    /**
-     * Removes a user account by the person's ID.
-     *
-     * @param personId the ID of the person whose account needs to be removed
-     * @return true if the account was successfully removed, false otherwise
-     */
-    public boolean removeUserAccount(String personId) {
-        UserAccount userAccount = findUserAccount(personId);
-        if (userAccount != null) {
-            userAccounts.remove(userAccount);
-            return true;
-        }
-        return false; // Account not found
-    }
-
-    @Override
-    public String toString() {
-        return "UserAccountDirectory{" +
-                "userAccounts=" + userAccounts +
-                '}';
-    }
+            return null; //not found after going through the whole list
+         }   
 }

@@ -16,77 +16,75 @@ import model.Personnel.Person;
  * @author kal bugrara
  */
 public class CustomerProfile {
-    private ArrayList<Order> orders;
-    private ArrayList<Market> markets;
-    private Person person;
+    ArrayList<Order> orders;
+    ArrayList<Market> markets;
+    
+    Person person;
 
     public CustomerProfile(Person p) {
-        this.person = p;
-        this.orders = new ArrayList<>();
-        this.markets = new ArrayList<>();
+
+        person = p;
+        orders = new ArrayList();
+
     }
 
-    public int getTotalPricePerformance() {
-        int totalPerformance = 0;
-        for (Order order : orders) {
-            totalPerformance += order.getOrderPricePerformance();
+           
+    public int getTotalPricePerformance(){
+        
+ 
+        //for each order in the customer orderlist 
+        //calculate order price performance and add it to the sum
+
+         int sum = 0;
+        for (Order o : orders) {
+            sum = sum + o.getOrderPricePerformance();
         }
-        return totalPerformance;
-    }
-
-    public int getNumberOfOrdersAboveTotalTarget() {
-        int count = 0;
-        for (Order order : orders) {
-            if (order.isOrderAboveTotalTarget()) {
-                count++;
-            }
+        
+        return 0;}
+ 
+    public int    getNumberOfOrdersAboveTotalTarget(){
+        //for each order in the customer order list 
+        //calculate if order is positive (actual order total is greater than sum of item targets
+        //if yes then add 1 to total 
+        int sum = 0;
+        for(Order o: orders){
+            if(o.isOrderAboveTotalTarget()==true) sum = sum + 1;
         }
-        return count;
-    }
-
-    public int getNumberOfOrdersBelowTotalTarget() {
-        int count = 0;
-        for (Order order : orders) {
-            if (!order.isOrderAboveTotalTarget()) { // Assumes false means below target
-                count++;
-            }
+        
+        return sum;}
+    
+    public int getNumberOfOrdersBelowTotalTarget(){int sum = 0;
+        for (Order o : orders) {
+            if (o.isOrderBelowTotalTarget()) sum = sum + 1;
         }
-        return count;
-    }
 
+        return sum;}
+         //for each order in the customer order list 
+        //calculate if order is negative
+        //if yes then add 1 to total 
+        
     public boolean isMatch(String id) {
-        return person.getPersonId().equals(id);
+        if (person.getPersonId().equals(id)) {
+            return true;
+        }
+        return false;
     }
-
-    public void addCustomerOrder(Order order) {
-        orders.add(order);
+    public void addCustomerOrder(Order o){
+        orders.add(o);
     }
-
     @Override
-    public String toString() {
+    public String toString(){
         return person.getPersonId();
     }
-
-    public String getCustomerId() {
+    
+    public String getCustomerId(){
         return person.getPersonId();
     }
-
-    public Person getPerson() {
+    
+    public Person getPerson(){
         return person;
     }
-
-    public ArrayList<Order> getOrders() {
-        return new ArrayList<>(orders); // Return a copy to avoid modification outside the class
-    }
-
-    public void addMarket(Market market) {
-        markets.add(market);
-    }
-
-    public ArrayList<Market> getMarkets() {
-        return new ArrayList<>(markets); // Return a copy for encapsulation
-    }
-    public String getCustomerName() {
-        return person.getFirstName();
-}
+        
+        
+    
 }

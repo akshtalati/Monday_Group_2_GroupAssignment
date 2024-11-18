@@ -16,55 +16,32 @@ import model.Personnel.Person;
  */
 public class SalesPersonDirectory {
 
-    private Business business;
-    private ArrayList<SalesPersonProfile> salespersonList;
+    Business business;
+    ArrayList<SalesPersonProfile> salespersonlist;
 
-    public SalesPersonDirectory(Business business) {
-        this.business = business;
-        this.salespersonList = new ArrayList<>();
+    public SalesPersonDirectory(Business d) {
+
+        business = d;
+        salespersonlist = new ArrayList();
+
     }
 
-    public SalesPersonProfile newSalesPersonProfile(Person person) {
-        SalesPersonProfile salesPersonProfile = new SalesPersonProfile(person);
-        salespersonList.add(salesPersonProfile);
-        return salesPersonProfile;
+    public SalesPersonProfile newSalesPersonProfile(Person p) {
+
+        SalesPersonProfile sp = new SalesPersonProfile(p);
+        salespersonlist.add(sp);
+        return sp;
     }
 
     public SalesPersonProfile findSalesPerson(String id) {
-        for (SalesPersonProfile salesPerson : salespersonList) {
-            if (salesPerson.isMatch(id)) {
-                return salesPerson;
+
+        for (SalesPersonProfile sp : salespersonlist) {
+
+            if (sp.isMatch(id)) {
+                return sp;
             }
         }
-        return null; // Not found
-    }
+            return null; //not found after going through the whole list
+         }
 
-    public boolean removeSalesPerson(String id) {
-        SalesPersonProfile salesPerson = findSalesPerson(id);
-        if (salesPerson != null) {
-            salespersonList.remove(salesPerson);
-            return true;
-        }
-        return false;
-    }
-
-    public ArrayList<SalesPersonProfile> getSalespersonList() {
-        return salespersonList;
-    }
-
-    public Business getBusiness() {
-        return business;
-    }
-
-    public int getSalesPersonCount() {
-        return salespersonList.size();
-    }
-
-    @Override
-    public String toString() {
-        return "SalesPersonDirectory{" +
-                "business=" + business +
-                ", salespersonList=" + salespersonList +
-                '}';
-    }
 }

@@ -14,55 +14,20 @@ import model.MarketModel.MarketChannelAssignment;
  * @author kal bugrara
  */
 public class SolutionOffer {
+    ArrayList<Product> products;
+    int price;//floor, ceiling, and target ideas
+    MarketChannelAssignment marketchannelcomb;
+    public SolutionOffer(MarketChannelAssignment m){
+        marketchannelcomb = m;
+        products = new ArrayList();
+    } 
     
-    private ArrayList<Product> products;   // List of products in the offer
-    private int price;                     // Price of the offer
-    private MarketChannelAssignment marketChannelComb; // Market channel assignment for this offer
-
-    public SolutionOffer(MarketChannelAssignment marketChannelComb) {
-        this.marketChannelComb = marketChannelComb;
-        this.products = new ArrayList<>();
+    public void addProduct(Product p){
+        products.add(p);
     }
-
-    public SolutionOffer(MarketChannelAssignment marketChannelComb, int initialPrice) {
-        this.marketChannelComb = marketChannelComb;
-        this.price = initialPrice;
-        this.products = new ArrayList<>();
+    public void setPrice(int p){
+        price = p;
+        
     }
-
-
-    public void addProduct(Product product) {
-        products.add(product);
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public ArrayList<Product> getProducts() {
-        return new ArrayList<>(products); // Return a copy to preserve encapsulation
-    }
-
-    public MarketChannelAssignment getMarketChannelAssignment() {
-        return marketChannelComb;
-    }
-
-    public int calculateTotalProductPrice() {
-        int total = 0;
-        for (Product product : products) {
-            total += product.getPrice(); 
-        }
-        return total;
-    }
-
-
-    @Override
-    public String toString() {
-        return "SolutionOffer [marketChannelComb=" + marketChannelComb + ", price=" + price 
-                + ", totalProducts=" + products.size() + "]";
-    }
+    
 }

@@ -8,38 +8,33 @@ import java.util.ArrayList;
  * @author kal bugrara
  */
 public class MasterOrderReport {
-    private ArrayList<OrderSummary> ordersummarylist;
-
-    // Constructor initializes the ordersummarylist
-    public MasterOrderReport() {
-        ordersummarylist = new ArrayList<>();
+    ArrayList<OrderSummary> ordersummarylist;
+    
+    public MasterOrderReport(){
+        
+        ordersummarylist = new ArrayList();
+        
     }
-
-    // Generates the report by creating OrderSummary objects for each Order in the list
-    public void generateOrderReport(ArrayList<Order> orders) {
-        ordersummarylist.clear(); // Clear previous summaries if regenerating the report
-        for (Order order : orders) {
-            OrderSummary orderSummary = new OrderSummary(order);
-            ordersummarylist.add(orderSummary);
-        }
+    public void generateOrderReport(ArrayList<Order> orders){
+        ArrayList<Order> orderlist = orders;
+        OrderSummary ordersummary ;
+        for(Order order: orderlist){
+            ordersummary = new OrderSummary(order);
+            ordersummarylist.add(ordersummary);
+        }         
     }
-
-    // Returns the most profitable order based on the profit of each OrderSummary
-    public OrderSummary getTopProfitableOrder() {
-        if (ordersummarylist.isEmpty()) return null;
-
-        OrderSummary currentTopOrder = ordersummarylist.get(0);
-
-        for (OrderSummary orderSummary : ordersummarylist) {
-            if (orderSummary.getOrderProfit() > currentTopOrder.getOrderProfit()) {
-                currentTopOrder = orderSummary;
+    
+    public OrderSummary getTopProfitableOrder(){ //most profitable order
+        OrderSummary currenttoporder = null;
+        
+        for (OrderSummary os: ordersummarylist){
+            if(currenttoporder == null)currenttoporder= os; // initial step 
+            else 
+                if(os.getOrderProfit()> currenttoporder.getOrderProfit()){
+                currenttoporder = os; //we have a new higher total
             }
-        }
-        return currentTopOrder;
-    }
-
-    // Retrieves the list of order summaries
-    public ArrayList<OrderSummary> getOrderSummaries() {
-        return new ArrayList<>(ordersummarylist);  // Return a copy to prevent external modification
+                }
+        return currenttoporder;
     }
 }
+

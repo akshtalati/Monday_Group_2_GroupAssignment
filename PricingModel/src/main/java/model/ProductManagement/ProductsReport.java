@@ -13,47 +13,53 @@ import java.util.ArrayList;
  */
 public class ProductsReport {
 
-    private ArrayList<ProductSummary> productSummaryList;
+    ArrayList<ProductSummary> productsummarylist;
 
     public ProductsReport() {
-        productSummaryList = new ArrayList<>();
+        productsummarylist = new ArrayList();
     }
 
-    public void addProductSummary(ProductSummary productSummary) {
-        productSummaryList.add(productSummary);
+    public void addProductSummary(ProductSummary ps) {
+
+        productsummarylist.add(ps);
     }
 
     public ProductSummary getTopProductAboveTarget() {
-        ProductSummary topProduct = null;
+        ProductSummary currenttopproduct = null;
 
-        for (ProductSummary productSummary : productSummaryList) {
-            if (topProduct == null || productSummary.getNumberAboveTarget() > topProduct.getNumberAboveTarget()) {
-                topProduct = productSummary; // New highest total sales above target
+        for (ProductSummary ps : productsummarylist) {
+            if (currenttopproduct == null) {
+                currenttopproduct = ps; // initial step 
+            } else if (ps.getNumberAboveTarget() > currenttopproduct.getNumberAboveTarget()) {
+                currenttopproduct = ps; //we have a new higher total
             }
+
         }
-        return topProduct;
+        return currenttopproduct;
     }
+
     public ArrayList<ProductSummary> getProductsAlwaysAboveTarget() {
-        ArrayList<ProductSummary> productsAlwaysAboveTarget = new ArrayList<>();
+        ArrayList<ProductSummary> productsalwaysabovetarget = new ArrayList(); //temp array list
 
-        for (ProductSummary productSummary : productSummaryList) {
-            if (productSummary.isProductAlwaysAboveTarget()) {
-                productsAlwaysAboveTarget.add(productSummary);
+        for (ProductSummary ps : productsummarylist) {
+            if (ps.isProductAlwaysAboveTarget() == true) {
+                productsalwaysabovetarget.add(ps);
             }
         }
-        return productsAlwaysAboveTarget;
+
+        return productsalwaysabovetarget;
     }
 
-    public ArrayList<ProductSummary> getAllProductSummaries() {
-        return new ArrayList<>(productSummaryList);
+    public ArrayList<ProductSummary> getProductSummaryList() {
+        return productsummarylist;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder report = new StringBuilder("Products Report:\n");
-        for (ProductSummary productSummary : productSummaryList) {
-            report.append(productSummary.toString()).append("\n");
+    public int getPricePerformance() {
+        int sum = 0;
+        for (ProductSummary ps : productsummarylist) {
+            System.out.println("Product: " + ps.getProductName() + " Price Performance: " + ps.getProductPricePerformance());
+            sum = sum + ps.getProductPricePerformance();
         }
-        return report.toString();
+        return sum;
     }
 }

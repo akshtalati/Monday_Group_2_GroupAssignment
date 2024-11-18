@@ -13,60 +13,90 @@ import model.ProductManagement.Product;
  */
 public class OrderItem {
 
-    private Product selectedProduct;
-    private int actualPrice;
-    private int quantity;
+    Product selectedproduct;
+    int actualPrice;
+    int quantity;
 
-    /**
-     * Constructor to create an order item with a product, price, and quantity.
-     * 
-     * @param p the product selected for the order item
-     * @param paidPrice the actual price paid for each unit
-     * @param q the quantity of the product ordered
-     */
-    public OrderItem(Product p, int paidPrice, int q) {
-        selectedProduct = p;
-        p.addOrderItem(this); // Link product back to the order item
+    public OrderItem(Product p, int paidprice, int q) {
+        selectedproduct = p;
+        p.addOrderItem(this); //make sure product links back to the item
         quantity = q;
-        this.actualPrice = paidPrice;
+        this.actualPrice = paidprice;
     }
 
     public int getOrderItemTotal() {
         return actualPrice * quantity;
     }
 
+//The following calculates what the price gain would have been if products were sold at target price
     public int getOrderItemTargetTotal() {
-        return selectedProduct.getTargetPrice() * quantity;
+        return selectedproduct.getTargetPrice() * quantity;
     }
 
+    //returns positive if seller is making higher margin than target
+    //returns negative if seller is making lower margin than target
+    //otherwise zero meaning neutral
     public int calculatePricePerformance() {
-        return (actualPrice - selectedProduct.getTargetPrice()) * quantity;
+        return (actualPrice - selectedproduct.getTargetPrice()) * quantity;
     }
 
     public boolean isActualAboveTarget() {
-        return actualPrice > selectedProduct.getTargetPrice();
+        if (actualPrice > selectedproduct.getTargetPrice()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean isActualBelowTarget() {
-        return actualPrice < selectedProduct.getTargetPrice();
+        if (actualPrice < selectedproduct.getTargetPrice()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     public boolean isActualATTarget() {
-        return actualPrice == selectedProduct.getTargetPrice();
+        if (actualPrice == selectedproduct.getTargetPrice()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
-    // Getter for the selected product
     public Product getSelectedProduct() {
-        return selectedProduct;
+        return selectedproduct;
     }
 
-    // Getter for the actual price
     public int getActualPrice() {
         return actualPrice;
+
     }
 
-    // Getter for the quantity of the product ordered
     public int getQuantity() {
         return quantity;
+    }
+
+    @Override
+    public String toString(){
+        return selectedproduct.getProductName();
+    }
+
+    public void setQuantity(int newQuantity) {
+        quantity = newQuantity;
+    }
+    
+    public boolean isActualAboveTargetIfRecommendedPrice() {
+        return actualPrice > selectedproduct.getRecommendedPrice();
+    }
+
+    public boolean isActualBelowTargetIfRecommendedPrice() {
+        return actualPrice < selectedproduct.getRecommendedPrice();
+    }
+
+    public int calculatePricePerformanceIfRecommendedPrice() {
+        return (actualPrice - selectedproduct.getRecommendedPrice()) * quantity;
     }
 }

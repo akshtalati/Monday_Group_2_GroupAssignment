@@ -12,22 +12,24 @@ import java.util.ArrayList;
  * @author kal bugrara
  */
 public abstract class Profile {
-
-    private Person person; // Encapsulated `person` field for better encapsulation
-
-
-    public Profile(Person p) {
-        this.person = p;
+    Person person;
+     public Profile(Person p){
+        person = p;
+        
     }
-
-    public abstract String getRole();
-
-    public Person getPerson() {
+    
+     public abstract String getRole();
+    
+    public Person getPerson(){
         return person;
     }
+     
 
- 
-    public boolean isMatch(String id) {
-        return person.getPersonId().equals(id);
+        public boolean isMatch(String id) {
+        if (person.getPersonId().equals(id)) {
+            return true;
+        }
+        return false;
     }
+
 }
