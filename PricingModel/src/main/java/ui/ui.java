@@ -48,6 +48,9 @@ public class ui extends javax.swing.JFrame {
 
            populateTaskTable(business);
 
+
+           populateTask23Table(business);
+
 }
 
 
@@ -67,7 +70,7 @@ public class ui extends javax.swing.JFrame {
         tblTask1 = new javax.swing.JTable();
         lbTask23 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbTask23 = new javax.swing.JTable();
         btnView = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -107,26 +110,26 @@ public class ui extends javax.swing.JFrame {
         lbTask23.setFont(new java.awt.Font("Segoe UI Historic", 3, 14)); // NOI18N
         lbTask23.setText("Adjust Target price Higher / Lower");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbTask23.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Name", "Target Price", "Actual Price ", "Price Variance", "Performance index"
+                "Name", "Target Price", "Actual Price ", "Sales (low / high)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tbTask23);
 
         btnView.setText("View Product");
         btnView.addActionListener(new java.awt.event.ActionListener() {
@@ -250,10 +253,10 @@ public class ui extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lbTask1;
     private javax.swing.JLabel lbTask23;
     private javax.swing.JLabel lbTitle;
+    private javax.swing.JTable tbTask23;
     private javax.swing.JTable tblTask1;
     // End of variables declaration//GEN-END:variables
 
@@ -333,5 +336,54 @@ public class ui extends javax.swing.JFrame {
         }
     }  
     }
+
+
+
+    private void populateTask23Table(Business business) {
+          DefaultTableModel model = (DefaultTableModel) tbTask23.getModel();
+    model.setRowCount(0);
+
+    // Loop through suppliers and their products
+    for (Supplier supplier : business.getSupplierDirectory().getSupplierList()) {
+        for (Product product : supplier.getProductCatalog().getProductList()) {
+            double totalActualPrice = 0;
+            int totalQuantity = 0;
+
+            // Calculate the total actual price and quantity for the product
+            for (Order order : business.getMasterOrderList().getOrders()) {
+                for (OrderItem orderItem : order.getOrderItems()) {
+                    if (orderItem.getSelectedProduct().equals(product)) {
+                        totalActualPrice += orderItem.getActualPrice() * orderItem.getQuantity();
+                        totalQuantity += orderItem.getQuantity();
+                    }
+                }
+            }
+
+            // Calculate average actual price (if applicable)
+            double averageActualPrice = totalQuantity > 0 ? totalActualPrice / totalQuantity : 0;
+
+            // Determine the type
+            String type;
+            if (averageActualPrice == product.getTargetPrice()) {
+                type = "Optimized";
+            } else if (averageActualPrice < product.getTargetPrice()) {
+                type = "Low";
+            } else {
+                type = "High";
+            }
+
+            // Add data to the table
+            Object[] row = new Object[]{
+                product.getProductName(),
+                product.getTargetPrice(),
+                averageActualPrice,
+                type
+            };
+            model.addRow(row);
+        }
+    }
+
+    }
+
 
 }
