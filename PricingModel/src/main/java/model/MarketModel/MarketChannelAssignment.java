@@ -10,33 +10,15 @@ package model.MarketModel;
  * @author kal bugrara
  */
 public class MarketChannelAssignment {
-
-    private Market market;
-    private Channel channel;
-
-    public MarketChannelAssignment(Market market, Channel channel) {
-        this.market = market;
-        this.channel = channel;
+    
+    Market market;
+    Channel channel;
+    
+    public MarketChannelAssignment(Market m, Channel c){
+        
+        market = m;
+        channel = c;
+        
     }
-
-    public Market getMarket() {
-        return market;
-    }
-
-    public void setMarket(Market market) {
-        this.market = market;
-    }
-
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
-
-    @Override
-    public String toString() {
-        return "MarketChannelAssignment [Market: " + market + ", Channel: " + channel + "]";
-    }
+    
 }

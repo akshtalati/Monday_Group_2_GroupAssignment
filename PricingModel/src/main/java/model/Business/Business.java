@@ -6,25 +6,26 @@
 package model.Business;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import model.CustomerManagement.ChannelCatalog;
 import model.CustomerManagement.CustomerDirectory;
+import model.CustomerManagement.CustomerProfile;
 import model.CustomerManagement.MarketCatalog;
 import model.MarketingManagement.MarketingPersonDirectory;
 import model.OrderManagement.MasterOrderList;
 import model.Personnel.EmployeeDirectory;
+import model.Personnel.Person;
 import model.Personnel.PersonDirectory;
 import model.ProductManagement.ProductSummary;
 import model.ProductManagement.ProductsReport;
 import model.ProductManagement.SolutionOfferCatalog;
 import model.SalesManagement.SalesPersonDirectory;
+import model.SalesManagement.SalesPersonProfile;
 import model.Supplier.Supplier;
 import model.Supplier.SupplierDirectory;
 import model.UserAccountManagement.UserAccountDirectory;
 
 /**
- *
  * @author kal bugrara
  */
 public class Business {
@@ -69,6 +70,7 @@ public class Business {
     public UserAccountDirectory getUserAccountDirectory() {
         return useraccountdirectory;
     }
+
     public MarketingPersonDirectory getMarketingPersonDirectory() {
         return marketingpersondirectory;
     }
@@ -76,19 +78,14 @@ public class Business {
     public SupplierDirectory getSupplierDirectory() {
         return suppliers;
     }
-    
-    public ProductsReport getSupplierPerformanceReport(String name) {
-     // Use Optional to retrieve the supplier
-     Optional<Supplier> supplierOptional = suppliers.findSupplierByName(name);
-    
-        // Check if the supplier is present, otherwise return null
-        if (!supplierOptional.isPresent()) {
+
+    public ProductsReport getSupplierPerformanceReport(String n) {
+        Supplier supplier = suppliers.findSupplier(n);
+        if (supplier == null) {
             return null;
         }
-    
-        // Get the supplier object from the Optional and generate the ProductsReport
-        Supplier supplier = supplierOptional.get();
         return supplier.prepareProductsReport();
+
     }
 
     public ArrayList<ProductSummary> getSupplierProductsAlwaysAboveTarget(String n) {
@@ -115,11 +112,12 @@ public class Business {
     public MasterOrderList getMasterOrderList() {
         return masterorderlist;
     }
-        public EmployeeDirectory getEmployeeDirectory() {
+
+    public EmployeeDirectory getEmployeeDirectory() {
         return employeedirectory;
     }
-        public String getBusinessName() {
-       return name;
-}
 
+    public MasterOrderList getSalesPersonOrderList(SalesPersonProfile salesPersonProfile) {
+        return masterorderlist.getSalesPersonOrderList(salesPersonProfile);
+    }
 }

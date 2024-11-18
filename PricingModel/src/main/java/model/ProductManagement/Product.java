@@ -6,11 +6,11 @@
 package model.ProductManagement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.OrderManagement.OrderItem;
 
 /**
- *
  * @author kal bugrara
  */
 public class Product {
@@ -19,43 +19,97 @@ public class Product {
     private int floorPrice;
     private int ceilingPrice;
     private int targetPrice;
-    private ArrayList<OrderItem> orderitems;
+    ArrayList<OrderItem> orderitems;
 
-    /**
-     * Constructor to initialize a product with floor, ceiling, and target prices.
-     *
-     * @param fp floor price
-     * @param cp ceiling price
-     * @param tp target price
-     */
     public Product(int fp, int cp, int tp) {
-        this("", fp, cp, tp); // Calls the other constructor
+
+        floorPrice = fp;
+        ceilingPrice = cp;
+        targetPrice = tp;
+        orderitems = new ArrayList();
     }
 
-    /**
-     * Constructor to initialize a product with a name, floor price, ceiling price, and target price.
-     *
-     * @param n product name
-     * @param fp floor price
-     * @param cp ceiling price
-     * @param tp target price
-     */
     public Product(String n, int fp, int cp, int tp) {
-        this.name = n;
-        this.floorPrice = fp;
-        this.ceilingPrice = cp;
-        this.targetPrice = tp;
-        this.orderitems = new ArrayList<>();
+        name = n;
+        floorPrice = fp;
+        ceilingPrice = cp;
+        targetPrice = tp;
+        orderitems = new ArrayList();
     }
+
     public Product updateProduct(int fp, int cp, int tp) {
-        this.floorPrice = fp;
-        this.ceilingPrice = cp;
-        this.targetPrice = tp;
-        return this;
+        floorPrice = fp;
+        ceilingPrice = cp;
+        targetPrice = tp;
+        return this; //returns itself
     }
 
     public int getTargetPrice() {
         return targetPrice;
+    }
+
+    public void addOrderItem(OrderItem oi) {
+        orderitems.add(oi);
+    }
+
+    //Number of item sales above target 
+    public int getNumberOfProductSalesAboveTarget() {
+        int sum = 0;
+        for (OrderItem oi : orderitems) {
+            if (oi.isActualAboveTarget() == true) {
+                sum = sum + 1;
+            }
+        }
+        return sum;
+    }
+
+    public int getNumberOfProductSalesBelowTarget() {
+        int sum = 0;
+        for (OrderItem oi : orderitems) {
+            if (oi.isActualBelowTarget() == true) {
+                sum = sum + 1;
+            }
+        }
+        return sum;
+    }
+
+    public boolean isProductAlwaysAboveTarget() {
+
+        for (OrderItem oi : orderitems) {
+            if (oi.isActualAboveTarget() == false) {
+                return false; //
+            }
+        }
+        return true;
+    }
+    //calculates the revenues gained or lost (in relation to the target)
+    //For example, if target is at $2000 and actual is $2500 then revenue gained
+    // is $500 above the expected target. If the actual is $1800 then the lose will be $200
+    // Add all these difference to get the total including wins and loses
+
+    public int getOrderPricePerformance() {
+        int sum = 0;
+        for (OrderItem oi : orderitems) {
+            sum = sum + oi.calculatePricePerformance();     //positive and negative values       
+        }
+        return sum;
+    }
+
+    public int getSalesVolume() {
+        int sum = 0;
+        for (OrderItem oi : orderitems) {
+            sum = sum + oi.getOrderItemTotal();     //positive and negative values       
+        }
+        return sum;
+    }
+
+    public void setName(String n) {
+        name = n;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public int getFloorPrice() {
@@ -66,68 +120,48 @@ public class Product {
         return ceilingPrice;
     }
 
-    public void setName(String n) {
-        this.name = n;
-    }
-    
-    public int getPrice() {
-        // Using targetPrice as the main price for now.
-        return targetPrice;
-    }
-    
-    public void addOrderItem(OrderItem oi) {
-        orderitems.add(oi);
-    }
-
-    public int getNumberOfProductSalesAboveTarget() {
-        int count = 0;
-        for (OrderItem oi : orderitems) {
-            if (oi.isActualAboveTarget()) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public int getNumberOfProductSalesBelowTarget() {
-        int count = 0;
-        for (OrderItem oi : orderitems) {
-            if (oi.isActualBelowTarget()) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public boolean isProductAlwaysAboveTarget() {
-        for (OrderItem oi : orderitems) {
-            if (!oi.isActualAboveTarget()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public int getOrderPricePerformance() {
-        int totalPerformance = 0;
-        for (OrderItem oi : orderitems) {
-            totalPerformance += oi.calculatePricePerformance();
-        }
-        return totalPerformance;
-    }
-    public int getSalesVolume() {
-        int totalVolume = 0;
-        for (OrderItem oi : orderitems) {
-            totalVolume += oi.getOrderItemTotal();
-        }
-        return totalVolume;
-    }
-
-    @Override
-    public String toString() {
+    public String getProductName() {
         return name;
     }
-    public String getProductName() {
-     return name;
-}
+
+    public int getRecommendedPrice() {
+        int price = targetPrice;
+//        map to see how many products are sold at a price
+
+        HashMap<Integer, Integer> pricePerformance = new HashMap<>();
+        for (OrderItem oi : orderitems) {
+            price = oi.getActualPrice();
+            pricePerformance.put(price, pricePerformance.getOrDefault(price, 0) + oi.getQuantity());
+        }
+
+//        assuming that the price is the one that is sold the most
+        int max = 0;
+        for (Integer key : pricePerformance.keySet()) {
+            if (pricePerformance.get(key) > max) {
+                max = pricePerformance.get(key);
+                price = key;
+            }
+        }
+        return price;
+    }
+
+    public ArrayList<OrderItem> getOrderitems() {
+        return orderitems;
+    }
+
+    public int getQuantity() {
+        int sum = 0;
+        for (OrderItem oi : orderitems) {
+            sum = sum + oi.getQuantity();
+        }
+        return sum;
+    }
+
+    public int getOrderPricePerformanceIfRecommendedPrice() {
+        int sum = 0;
+        for (OrderItem oi : orderitems) {
+            sum = sum + oi.calculatePricePerformanceIfRecommendedPrice();     //positive and negative values
+        }
+        return sum;
+    }
 }

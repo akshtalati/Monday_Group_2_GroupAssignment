@@ -26,8 +26,9 @@ public class MarketingPersonDirectory {
 
     }
 
-    public MarketingPersonProfile newMarketingPersonProfile(Person p, String roleTitle, int yearsOfExperience, int salesTarget) {
-        MarketingPersonProfile sp = new MarketingPersonProfile(p, roleTitle, yearsOfExperience, salesTarget);
+    public MarketingPersonProfile newMarketingPersonProfile(Person p) {
+
+        MarketingPersonProfile sp = new MarketingPersonProfile(p);
         marketingpersonlist.add(sp);
         return sp;
     }
