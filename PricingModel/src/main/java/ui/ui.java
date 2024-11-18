@@ -48,6 +48,7 @@ public class ui extends javax.swing.JFrame {
 
            populateTaskTable(business);
 
+
            populateTask23Table(business);
 
 }
@@ -337,6 +338,7 @@ public class ui extends javax.swing.JFrame {
     }
 
 
+
     private void populateTask23Table(Business business) {
           DefaultTableModel model = (DefaultTableModel) tbTask23.getModel();
     model.setRowCount(0);
@@ -382,5 +384,6 @@ public class ui extends javax.swing.JFrame {
     }
 
     }
+
 
 }
